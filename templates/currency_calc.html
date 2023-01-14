@@ -12,13 +12,13 @@
       <p>
       <label for="currencies">wybierz walutę:</label>
       <select name="currencies" id="currencies">
-        {% for currency in data %}
+        {% for currency in nbp_data %}
           <option value = "{{currency['ask']}}">{{currency['code']}}</option>    
         {% endfor %}
       </select>
       </p>
       <p>
-      Ile chcesz kupić? <input type = "number" name = "number">
+      Ile chcesz kupić? <input type = "number" name = "number" required = "True">
       </p>
       <p>
       <input type = "submit" value = "Przelicz" name = "submit">

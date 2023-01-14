@@ -22,14 +22,17 @@ with open('rates.csv', 'w', newline='') as csvfile:
 
 @app.route("/", methods=["GET", "POST"])
 def currency_calc():
+    bank_response = requests.get("http://api.nbp.pl/api/exchangerates/tables/C?format=json")
+    nbp_data = bank_response.json()
+    nbp_data = nbp_data[0]   
     if request.method == 'GET':
-        return render_template('currency_calc.html', data = data['rates'])
+        return render_template('currency_calc.html', nbp_data = nbp_data['rates'])
     elif request.method == "POST":
         currency = request.form
         rate = currency['currencies']
         number = currency['number']
-        result = str(float(rate) * float(number)) + " PLN"
-        return render_template('currency_calc.html', data = data['rates'], result = result)
+        result = f"{(float(rate) * float(number)):.02f}" + " PLN"
+        return render_template('currency_calc.html', nbp_data = nbp_data['rates'], result = result)
 
 if __name__ == '__main__':
     app.run(debug=True)
